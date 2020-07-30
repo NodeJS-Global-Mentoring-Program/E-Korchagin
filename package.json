@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "task-one-one": "nodemon TaskOne\\SubtaskOne\\index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +19,8 @@
   "homepage": "https://github.com/NodeJS-Global-Mentoring-Program/E-Korchagin#readme",
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0"
   }
 }
