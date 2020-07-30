@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/NodeJS-Global-Mentoring-Program/E-Korchagin/issues"
   },
-  "homepage": "https://github.com/NodeJS-Global-Mentoring-Program/E-Korchagin#readme"
+  "homepage": "https://github.com/NodeJS-Global-Mentoring-Program/E-Korchagin#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
 }
