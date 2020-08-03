@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "task11": "nodemon TaskOne\\one.js",
-    "task12": "nodemon TaskOne\\two.js",
+    "task11": "nodemon src\\TaskOne\\one.js",
+    "task12": "nodemon src\\TaskOne\\two.js",
+    "task13": "nodemon --exec babel-node src\\TaskOne\\three.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,9 +20,14 @@
   },
   "homepage": "https://github.com/NodeJS-Global-Mentoring-Program/E-Korchagin#readme",
   "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.10.4",
     "chalk": "^4.1.0",
     "csvtojson": "^2.0.10"
   }
