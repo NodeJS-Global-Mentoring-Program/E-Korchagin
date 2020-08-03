@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "task-one-one": "nodemon TaskOne\\SubtaskOne\\index.js",
+    "task11": "nodemon TaskOne\\one.js",
+    "task12": "nodemon TaskOne\\two.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +22,7 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.0",
+    "csvtojson": "^2.0.10"
   }
 }
