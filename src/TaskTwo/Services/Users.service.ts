@@ -57,4 +57,15 @@ export class UserService {
     user && (user.IsDeleted = true);
     return true;
   }
+
+  public getUsersBySubstring(substring: string): User[] {
+    return this._users
+      .filter(user => user.Login.includes(substring))
+      .map<User>(dto => ({
+        Age: dto.Age,
+        Id: dto.Id,
+        Login: dto.Login
+      }))
+      .sort((f, s) => f.Login.toLowerCase() > s.Login.toLowerCase() ? 1 : -1)
+  }
 }

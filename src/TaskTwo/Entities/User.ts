@@ -5,7 +5,7 @@ export type User = {
   Age: number;
 }
 
-export type NewUser = User & {
+export type NewUser = Omit<User, "Id"> & {
   Password: string;
 }
 

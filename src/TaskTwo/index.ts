@@ -1,10 +1,9 @@
 import express from 'express';
 import { PORT } from './config';
-import { useUsersRoute } from './Routers/User.router';
+import { userRouter } from './Routers/User.router';
 
 const app = express();
 
 app.use(express.json());
 app.listen(PORT);
-
-useUsersRoute(app);
+app.use("/users", userRouter)
