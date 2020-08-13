@@ -8,7 +8,6 @@ const csvFilePath = 'src\\TaskOne\\input\\nodejs-hw1-ex1.csv';
 const txtFilePath = 'src\\TaskOne\\output.txt';
 
 const csvOptions = {
-  output: 'cvs',
   noheader: false,
   delimiter: [";"],
   colParser: {
