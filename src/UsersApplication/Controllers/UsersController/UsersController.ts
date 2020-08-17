@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { UserService } from '../Services/Users.service';
-import { getValidationMiddleWare, newUserSchema, undateUserSchema } from '../Validations';
+import { UserService } from '../../Services/Users.service';
+import { getValidationMiddleWare, newUserSchema, undateUserSchema } from './UserValidations';
 
 export const userRouter = Router({ caseSensitive: true });
 const userService = UserService.instance;

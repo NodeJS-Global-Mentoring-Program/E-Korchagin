@@ -8,7 +8,8 @@
     "task12": "nodemon src\\TaskOne\\two.js",
     "task13": "nodemon --exec babel-node src\\TaskOne\\three.js",
     "tsc": "tsc",
-    "task2": "nodemon src\\TaskTwo\\index.ts"
+    "task2": "nodemon src\\TaskTwo\\index.ts",
+    "app": "nodemon src\\UsersApplication\\index.ts"
   },
   "repository": {
     "type": "git",
