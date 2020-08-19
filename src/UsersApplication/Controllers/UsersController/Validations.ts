@@ -11,7 +11,27 @@ export const getValidationMiddleWare = (schema: joi.ObjectSchema<any>): RequestH
   }
 };
 
-export const validateUserId = (id: string) => joi.string().uuid({ version: 'uuidv4' }).required().validate(id);
+export const ValidateLimitMiddleWare: RequestHandler = (req, res, next) => {
+  const { limit } = req.query;
+  const { error } = joi.number().min(1).max(50).validate(limit);
+
+  if (error) {
+    res.status(400).json(error.details.map(e => e.message));
+  } else {
+    next();
+  }
+};
+
+
+export const ValidateUserIdMiddleWare: RequestParamHandler = (req, res, next, id) => {
+  const { error } = joi.string().uuid({ version: 'uuidv4' }).required().validate(id);
+
+  if (error) {
+    res.status(400).json(error.details.map(e => e.message));
+  } else {
+    next();
+  }
+};
 
 export const newUserDataSchema = joi.object().keys({
   Age: joi.number().min(4).max(130).required(),

@@ -154,7 +154,7 @@
 			}
 		],
 		"newline-after-var": 0,
-		"brace-style": [2, "1tbs"],
+		"brace-style": 0,
 		"comma-spacing": [
 			2,
 			{

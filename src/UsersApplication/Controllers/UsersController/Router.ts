@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { getValidationMiddleWare, newUserDataSchema, userUpdateDataSchema } from './Validations';
+import { getValidationMiddleWare, newUserDataSchema, userUpdateDataSchema, ValidateLimitMiddleWare, ValidateUserIdMiddleWare } from './Validations';
 import { UserController } from './UsersController';
 
 export const userRouter = Router({ caseSensitive: true });
 
 userRouter.route('/')
-  .get(UserController.getUsersByQuery)
-  .post(getValidationMiddleWare(newUserDataSchema), UserController.getUsersByQuery);
+  .get(ValidateLimitMiddleWare, UserController.getUsersByQuery)
+  .post(getValidationMiddleWare(newUserDataSchema), UserController.createNewUser);
 
-userRouter.param('id', UserController.getUserByIdParam);
+userRouter.param('id', ValidateUserIdMiddleWare);
 userRouter.route('/:id')
   .get(UserController.getUserById)
   .put(getValidationMiddleWare(userUpdateDataSchema), UserController.updateUser)
