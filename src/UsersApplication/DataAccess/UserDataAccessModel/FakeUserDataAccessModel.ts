@@ -34,21 +34,21 @@ const users: UserDTO[] = [
 ];
 
 export class FakeUserDataAccessModel extends UserDataAccessModel {
-  public static getUserById = (id: string): UserDTO | undefined => users.find(user => user.IsDeleted === false && user.Id === id);
+  public getUserById = async (id: string): Promise<UserDTO | undefined> => users.find(user => user.IsDeleted === false && user.Id === id);
 
-  public static getUsersBySubstring = (substring: string, limit: number): UserDTO[] => {
+  public getUsersBySubstring = async (substring: string, limit: number): Promise<UserDTO[]> => {
     return users
       .filter(user => user.IsDeleted === false && user.Login.includes(substring))
       .sort((f, s) => f.Login.toLowerCase() > s.Login.toLowerCase() ? 1 : -1)
       .slice(0, limit ? +limit : 50);
   };
 
-  public static updateUser = (userData: Partial<UserDTO> & Pick<UserDTO, 'Id'>): boolean => {
-    const user = FakeUserDataAccessModel.getUserById(userData.Id);
+  public updateUser = async (userData: Partial<UserDTO> & Pick<UserDTO, 'Id'>): Promise<boolean> => {
+    const user = await this.getUserById(userData.Id);
     return !!Object.assign(user, userData);
   }
 
-  public static deleteUser = (id: string): boolean => {
+  public deleteUser = async (id: string): Promise<boolean> => {
     const userToDelete = users.find(user => user.Id === id);
     if (userToDelete) {
       userToDelete.IsDeleted = true;
@@ -57,7 +57,7 @@ export class FakeUserDataAccessModel extends UserDataAccessModel {
     return false;
   }
 
-  static createUser = (userData: Omit<UserDTO, 'Id' | 'IsDeleted'>): string => {
+  public createUser = async (userData: Omit<UserDTO, 'Id' | 'IsDeleted'>): Promise<string> => {
     const newUserId = uuidv4();
     const newUser: UserDTO = {
       Id: newUserId,

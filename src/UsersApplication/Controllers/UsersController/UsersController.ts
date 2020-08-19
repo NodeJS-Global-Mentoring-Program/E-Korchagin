@@ -1,20 +1,36 @@
 import { RequestHandler } from 'express';
 import { UserService } from '../../Services';
-import { FakeUserDataAccessModel } from '../../DataAccess';
+import { SequelizeDataAccessModel, UserDataAccessModel, FakeUserDataAccessModel } from '../../DataAccess';
 import { CommonError } from '../CommonController';
+import { FilteredUsersQuery } from './types';
+import { DataAccessType, currentDataAccessType } from '../../config';
 
+export const dataAccessMap = new Map<DataAccessType, UserDataAccessModel>([
+  [DataAccessType.Fake, new FakeUserDataAccessModel()],
+  [DataAccessType.Seq, new SequelizeDataAccessModel()]
+]);
+
+/**
+ * Provides functions for Users API
+ */
 export class UserController {
-  private static userService = new UserService(FakeUserDataAccessModel);
+  private static userService = new UserService(dataAccessMap.get(currentDataAccessType)!);
 
-  public static getUserById: RequestHandler = (req, res, next) => {
-    const user = UserController.userService.getUserById(req.params.id);
+  /**
+   * Find User by `id` param
+   */
+  public static getUserById: RequestHandler = async (req, res, next) => {
+    const user = await UserController.userService.getUserById(req.params.id);
     !user && res.status(404).json({ message: 'User not found' });
 
     res.json(user);
   };
 
-  public static updateUser: RequestHandler = (req, res, next) => {
-    const isUpdated = UserController.userService.updateUser(req.params.id, req.body);
+  /**
+   * Update User by `id` param and request `body` data
+   */
+  public static updateUser: RequestHandler = async (req, res, next) => {
+    const isUpdated = await UserController.userService.updateUser(req.params.id, req.body);
 
     if (isUpdated) {
       res.sendStatus(200);
@@ -28,8 +44,11 @@ export class UserController {
     }
   }
 
-  public static deleteUser: RequestHandler = (req, res, next) => {
-    const isDeleted = UserController.userService.deleteUser(req.params.id);
+  /**
+   * Delete User by `id` param
+   */
+  public static deleteUser: RequestHandler = async (req, res, next) => {
+    const isDeleted = await UserController.userService.deleteUser(req.params.id);
 
     if (isDeleted) {
       res.sendStatus(200);
@@ -43,12 +62,21 @@ export class UserController {
     }
   }
 
-  public static createNewUser: RequestHandler = (req, res, next) => {
-    const newUserId = UserController.userService.createUser(req.body);
+  /**
+   * Create new User by request `body` data
+   */
+  public static createNewUser: RequestHandler = async (req, res, next) => {
+    const newUserId = await UserController.userService.createUser(req.body);
     res.json(newUserId);
   }
 
-  public static getUsersByQuery: RequestHandler = (req, res, next) => {
-    res.json(UserController.userService.getUsersBySubstring(req.query.substring as string, req.query.limit as string));
+  /**
+   * Get Users list by `query` params
+   * - `limit`: max number of users
+   * - `substring`: user login part
+   */
+  public static getUsersByQuery: RequestHandler = async (req, res, next) => {
+    const query = req.query as any as FilteredUsersQuery;
+    res.json(await UserController.userService.getUsersBySubstring(query.substring, query.limit));
   }
 }

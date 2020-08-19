@@ -2,14 +2,10 @@ import { UserDTO } from '../../Models';
 import { UserDataAccessModel } from '../../DataAccess';
 
 export class UserService {
-  private _userModel: typeof UserDataAccessModel;
+  constructor(private readonly dataModel: UserDataAccessModel) { }
 
-  constructor(userModelClass: typeof UserDataAccessModel) {
-    this._userModel = userModelClass;
-  }
-
-  public getUserById = (id: string): Omit<UserDTO, 'Password' | 'IsDeleted'> | undefined => {
-    const user = this._userModel.getUserById(id);
+  public getUserById = async (id: string): Promise<Omit<UserDTO, 'Password' | 'IsDeleted'> | undefined> => {
+    const user = await this.dataModel.getUserById(id);
     return user && {
       Id: user.Id,
       Age: user.Age,
@@ -17,8 +13,8 @@ export class UserService {
     };
   }
 
-  public getUsersBySubstring = (substring: string, limit: string): Omit<UserDTO, 'Password' | 'IsDeleted'>[] => {
-    const users = this._userModel.getUsersBySubstring(substring, +limit);
+  public getUsersBySubstring = async (substring?: string, limit?: string): Promise<Omit<UserDTO, 'Password' | 'IsDeleted'>[]> => {
+    const users = await this.dataModel.getUsersBySubstring(substring || '', limit ? +limit : 50);
 
     return users.map(user => ({
       Id: user.Id,
@@ -27,10 +23,10 @@ export class UserService {
     }));
   }
 
-  public createUser = (userData: Omit<UserDTO, 'Id' | 'IsDeleted'>): string => this._userModel.createUser(userData);
-  public deleteUser = (id: string) : boolean => this._userModel.deleteUser(id);
+  public createUser = (userData: Omit<UserDTO, 'Id' | 'IsDeleted'>): Promise<string> => this.dataModel.createUser(userData);
+  public deleteUser = (id: string) : Promise<boolean> => this.dataModel.deleteUser(id);
 
-  public updateUser = (id: string, userData: Partial<Omit<UserDTO, 'IsDeleted' | 'Id'>>): boolean => {
+  public updateUser = (id: string, userData: Partial<Omit<UserDTO, 'IsDeleted' | 'Id'>>): Promise<boolean> => {
     const toUpdateData: { [field: string]: any } = {
       Id: id,
       Age: userData.Age,
@@ -39,6 +35,6 @@ export class UserService {
     };
 
     Object.keys(toUpdateData).forEach(key => toUpdateData[key] === undefined && delete toUpdateData[key]);
-    return this._userModel.updateUser(toUpdateData as Partial<UserDTO> & Pick<UserDTO, 'Id'>);
+    return this.dataModel.updateUser(toUpdateData as Partial<UserDTO> & Pick<UserDTO, 'Id'>);
   };
 }
