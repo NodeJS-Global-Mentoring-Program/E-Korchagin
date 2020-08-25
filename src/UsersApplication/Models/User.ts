@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../config';
 
-export interface UserDTO {
+export type UserDTO = {
   Id: string;
   Login: string;
   Age: number;

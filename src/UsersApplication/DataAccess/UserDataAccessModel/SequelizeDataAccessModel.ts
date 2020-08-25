@@ -4,7 +4,7 @@ import { Op } from 'sequelize';
 
 const { v4: uuidv4 } = require('uuid');
 
-export class SequelizeDataAccessModel extends UserDataAccessModel {
+export class UserSequelizeDataAccessModel extends UserDataAccessModel {
   public getUserById = async (id: string): Promise<UserDTO | undefined> => {
     const user = await UserDataModel.findOne({ where: { Id: id, IsDeleted: false } });
     return user ? user.get() : undefined;
