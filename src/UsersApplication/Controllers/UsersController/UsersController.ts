@@ -1,13 +1,13 @@
 import { RequestHandler } from 'express';
 import { UserService } from '../../Services';
-import { SequelizeDataAccessModel, UserDataAccessModel, FakeUserDataAccessModel } from '../../DataAccess';
+import { UserSequelizeDataAccessModel, UserDataAccessModel, FakeUserDataAccessModel } from '../../DataAccess';
 import { CommonError } from '../CommonController';
 import { FilteredUsersQuery } from './types';
 import { DataAccessType, currentDataAccessType } from '../../config';
 
 export const dataAccessMap = new Map<DataAccessType, UserDataAccessModel>([
   [DataAccessType.Fake, new FakeUserDataAccessModel()],
-  [DataAccessType.Seq, new SequelizeDataAccessModel()]
+  [DataAccessType.Seq, new UserSequelizeDataAccessModel()]
 ]);
 
 /**
