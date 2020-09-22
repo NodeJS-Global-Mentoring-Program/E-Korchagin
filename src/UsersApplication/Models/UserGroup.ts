@@ -1,4 +1,6 @@
-import { DataTypes, Model, Optional } from 'sequelize';
+import { GroupDataModel } from './Group';
+import { UserDataModel } from './User';
+import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config';
 
 export type UserGroupDTO = {
@@ -26,3 +28,6 @@ export const UserGroupDataModel = sequelize.define<Model<UserGroupDTO, UserGroup
   createdAt: false,
   updatedAt: false
 });
+
+GroupDataModel.belongsToMany(UserDataModel, { through: UserGroupDataModel });
+UserDataModel.belongsToMany(GroupDataModel, { through: UserGroupDataModel });
