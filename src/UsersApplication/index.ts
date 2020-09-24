@@ -1,12 +1,14 @@
 import express from 'express';
 import { usersApiPrefix, userRouter, groupsApiPrefix, groupRouter, CommonController } from './Controllers';
 import { API_SERVER_PORT } from './config';
-import { logger } from './Middlewares';
+import { checkTokenMiddleware, logger } from './Middlewares';
+import { loginRouter } from './Controllers/CommonController/Router';
 
 const app = express();
 
 app.use(express.json());
 
+app.use(loginRouter, checkTokenMiddleware);
 app.use(usersApiPrefix, userRouter);
 app.use(groupsApiPrefix, groupRouter);
 app.use(CommonController.handleCommonError);
