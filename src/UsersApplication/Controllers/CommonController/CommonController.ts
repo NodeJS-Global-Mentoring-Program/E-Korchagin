@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import { logger } from '../../Middlewares';
 import { CommonError } from './types';
-import { runInNewContext } from 'vm';
 require('dotenv').config();
 
 const tokenList = new Map<string, string>();

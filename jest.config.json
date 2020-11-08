@@ -1,0 +1,11 @@
+{
+  "automock": false,
+  "verbose": true,
+  "moduleFileExtensions": ["js", "ts"],
+  "collectCoverageFrom": ["**/routers/**"],
+  "moduleDirectories": ["node_modules", "src"],
+  "setupFiles": [
+      "<rootDir>/jest.init.js",
+      "dotenv/config"
+  ]
+}
